@@ -1,0 +1,21 @@
+#pragma once
+
+#include <cstdint>
+#include <vector>
+
+class PerlinNoise
+{
+public:
+    PerlinNoise();
+    PerlinNoise(int32_t _seed);
+
+    double getNoise(double _x, double _y, double _z);
+    int32_t getSeed();
+private:
+    std::vector<int32_t> m_Permutation;
+    int32_t m_Seed;
+
+    double fade(double _t);
+    double lerp(double _t, double _a, double _b);
+    double grad(int _hash, double _x, double _y, double _z);
+};

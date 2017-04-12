@@ -1,9 +1,15 @@
 #pragma once
 
+#include <cstdint>
+
 class Block
 {
 public:
     Block();
-    ~Block();
+    virtual ~Block();
+
+
+
+    virtual void update();
 private:
 };
