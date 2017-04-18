@@ -1,7 +1,8 @@
 #include <iostream>
 
-#include <SimplexNoise.h>
 
+
+/*
 int main(int argc, char** argv)
 {
     std::cout << "Simplex noise image:" << std::endl;
@@ -15,5 +16,10 @@ int main(int argc, char** argv)
         std::cout << std::endl;
     }
     std::cout << "Finished." << std::endl;
+    return 0;
+}*/
+
+int main()
+{
     return 0;
 }
