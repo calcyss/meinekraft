@@ -1,2 +1,2 @@
-# Boilerplate readme for meinekraft #
+# Boilerplate readme for meinekraft
 TODO: Add readme.

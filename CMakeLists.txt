@@ -10,3 +10,4 @@ FIND_PACKAGE(OpenGL)
 FIND_PACKAGE(GLEW)
 
 add_executable(meinekraft ${src_files})
+target_link_libraries(meinekraft ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
