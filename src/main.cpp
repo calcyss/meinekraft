@@ -1,6 +1,7 @@
 #include <iostream>
+#include <string>
 
-
+#include <Chunk.hpp>
 
 /*
 int main(int argc, char** argv)
@@ -21,5 +22,15 @@ int main(int argc, char** argv)
 
 int main()
 {
+    int i = 0;
+    i *= 4;
+    i++;
+    i *= 2;
+    std::cout << i << std::endl;
+
+
+
+    Chunk c;
+
     return 0;
 }
