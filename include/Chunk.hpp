@@ -4,8 +4,6 @@
 
 #include <glm/glm.hpp>
 
-class Block;
-
 class Chunk
 {
 public:

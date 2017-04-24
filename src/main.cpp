@@ -1,7 +1,9 @@
 #include <iostream>
 #include <string>
 
+#include <GameWindow.hpp>
 #include <Chunk.hpp>
+#include <unistd.h>
 
 /*
 int main(int argc, char** argv)
@@ -22,15 +24,19 @@ int main(int argc, char** argv)
 
 int main()
 {
-    int i = 0;
-    i *= 4;
-    i++;
-    i *= 2;
-    std::cout << i << std::endl;
-
-
+    GameWindow gw(1280, 720, "meinekraft");
 
     Chunk c;
+    gw.makeCurrent();
+    gw.show();
+
+    while(!gw.getShouldClose())
+    {
+        usleep(16666);
+        gw.update();
+        gw.clear();
+        gw.swapBuffers();
+    }
 
     return 0;
 }

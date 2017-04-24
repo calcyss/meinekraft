@@ -2,7 +2,27 @@
 
 #include <GL/glew.h>
 #include <fstream>
+#include <vector>
 #include <iostream>
+
+std::string getInfoLog(int id)
+{
+    GLint infoLogLength;
+    glGetShaderiv(id, GL_INFO_LOG_LENGTH, &infoLogLength);
+
+    GLchar *infoLog = new GLchar[infoLogLength + 1];
+    glGetShaderInfoLog(id, infoLogLength, NULL, infoLog);
+
+
+    // Convert the info log to a string
+    std::string infoLogString(infoLog);
+
+    // Delete the char array version of the log
+    delete[] infoLog;
+
+    // Finally, return the string version of the info log
+    return infoLogString;
+}
 
 Chunk::Chunk()
 {
@@ -17,12 +37,13 @@ Chunk::Chunk()
 
     std::ifstream vert_file("./shaders/chunk.vert.glsl");
     std::string vert_source, vert_line;
-    const char* vert_source_c = vert_source.c_str();
 
     while(std::getline(vert_file, vert_line))
     {
         vert_source.append(vert_line + "\n");
     }
+    const char* vert_source_c = vert_source.c_str();
+
     vert_file.close();
 
     glShaderSource(mVert, 1, &vert_source_c, 0);
@@ -30,16 +51,33 @@ Chunk::Chunk()
 
     std::ifstream frag_file("./shaders/chunk.frag.glsl");
     std::string frag_source, frag_line;
-    const char* frag_source_c = frag_source.c_str();
 
     while(std::getline(frag_file, frag_line))
     {
-        vert_source.append(frag_line + "\n");
+        frag_source.append(frag_line + "\n");
     }
+    const char* frag_source_c = frag_source.c_str();
+
     frag_file.close();
 
     glShaderSource(mFrag, 1, &frag_source_c, 0);
     glCompileShader(mFrag);
+
+    /*
+    std::cout << "Vert source: " << std::endl;
+    std::cout << "--" << std::endl;
+    std::cout << vert_source << std::endl;
+    std::cout << "--" << std::endl;
+    //std::cout << getInfoLog(mVert) << std::endl;
+    //std::cout << "--" << std::endl;
+
+    std::cout << "Frag source: " << std::endl;
+    std::cout << "--" << std::endl;
+    std::cout << frag_source << std::endl;
+    std::cout << "--" << std::endl;
+    //std::cout << getInfoLog(mFrag) << std::endl;
+    //std::cout << "--" << std::endl;
+     */
 
     glAttachShader(mShader, mVert);
     glAttachShader(mShader, mFrag);

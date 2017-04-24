@@ -1,8 +1,8 @@
-in vec4 vPosition;
+attribute vec4 vPosition;
 
 uniform mat4 uMVP;
 
 void main()
 {
-    fPosition = uMVP * vPosition;
+    gl_Position = uMVP * vPosition;
 }
