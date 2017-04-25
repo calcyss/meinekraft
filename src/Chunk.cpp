@@ -3,9 +3,9 @@
 #include <Camera.hpp>
 
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <GL/glew.h>
 #include <fstream>
-#include <vector>
 #include <iostream>
 #include <algorithm>
 
@@ -28,51 +28,78 @@ std::string getInfoLog(int id)
     return infoLogString;
 }
 
-Chunk::Chunk()
+bool Chunk::sInit = true;
+std::vector<glm::vec4> Chunk::sBlockGeometry = std::vector<glm::vec4>();
+
+Chunk::Chunk(glm::ivec2 _mapPosition)
 {
-    //Front
-    mBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+    if(sInit)
+    {
+        //Front
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 
-    //Back
-    mBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+        //Back
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+        //Top
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+        //Bottom
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
 
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+        //Left
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    mBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+        //Right
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+    }
+
+    mMapPosition = _mapPosition;
+    mTransformation = glm::translate(glm::mat4(1.0f), glm::vec3(mMapPosition.x, mMapPosition.y, 0.0f));
+
+    mBlocks = new int32_t**[16];
+    for(int x = 0; x < 16; x++)
+    {
+        mBlocks[x] = new int32_t*[128];
+        for(int y = 0; y < 128; y++)
+        {
+            mBlocks[x][y] = new int32_t[16];
+            for(int z = 0; z < 16; z++)
+            {
+                mBlocks[x][y][z] = 0;
+            }
+        }
+    }
 
     glGenBuffers(1, &mVBO);
     glGenVertexArrays(1, &mVAO);
@@ -144,40 +171,70 @@ Chunk::Chunk()
 
 Chunk::~Chunk()
 {
+    for(int x = 0; x < 16; x++)
+    {
+        for(int y = 0; y < 128; y++)
+        {
+            delete[] mBlocks[x][y];
+        }
+        delete[] mBlocks[x];
+    }
+    delete[] mBlocks;
+
     glDeleteVertexArrays(1, &mVAO);
     glDeleteBuffers(1, &mVBO);
     glDeleteProgram(mShader);
 }
 
-void Chunk::update()
-{
-    if(mChanged)
-    {
-        mChanged = !mChanged;
+void Chunk::update() {
+    if (mChanged) {
+        mChanged = false;
         //Generate chunk data here, check for necessary blocks.
-        std::vector<glm::ivec3> blocksToDraw;
-        for(int32_t y = 0; y < 128; y++)
-        {
-            for(int32_t z = 0; z < 32; z++)
-            {
-                for(int32_t x = 0; x < 32; x++)
-                {
-                    if(mBlocks[x][y][z] == 0) continue; //We dont have to check air blocks.
+        std::vector<glm::vec4> chunk_geometry;
+        for (int32_t y = 0; y < 128; y++) {
+            for (int32_t z = 0; z < 32; z++) {
+                for (int32_t x = 0; x < 32; x++) {
+                    if (mBlocks[x][y][z] == 0) continue; //We dont have to check air blocks.
                     std::vector<int32_t> neighbors = getNeighbors(x, y, z);
-                    if(std::find(neighbors.begin(), neighbors.end(), 0) == neighbors.end())
+                    if (std::find(neighbors.begin(), neighbors.end(), 0) != neighbors.end()) //Block has an air block as neighbor --> VISIBLE/DRAW IT!
                     {
-                        blocksToDraw.push_back(glm::ivec3(x, y, z));
+                        glm::vec4 block_offset = glm::vec4(x, y, z, 1.0f);
+                        for (glm::vec4 block_vertex : sBlockGeometry)
+                        {
+                            chunk_geometry.push_back(block_offset + block_vertex);
+                        }
                     }
                 }
             }
         }
+        mVertexCount = chunk_geometry.size();
 
-        for(glm::ivec3 block : blocksToDraw)
-        {
+        GLuint attribloc = (GLuint)glGetAttribLocation(mShader, "vPosition");
+        glBindVertexArray(mVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, mVBO);
+        glDisableVertexAttribArray(attribloc);
 
-        }
+        glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * chunk_geometry.size(), glm::value_ptr(chunk_geometry[0]), GL_STATIC_DRAW);
+
+        glVertexAttribPointer(attribloc, 4, GL_FLOAT, GL_FALSE, 0, 0);
+        glEnableVertexAttribArray(attribloc);
+        glBindVertexArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 }
+
+std::vector<int32_t> Chunk::getNeighbors(int32_t _x, int32_t _y, int32_t _z)
+{
+    std::vector<int32_t> ret;
+    if(_y +1 <= 127) ret.push_back(mBlocks[_x][_y +1][_z]);
+    if(_y -1 >= 0) ret.push_back(mBlocks[_x][_y -1][_z]);
+    if(_x +1 <= 15) ret.push_back(mBlocks[_x +1][_y][_z]);
+    if(_x -1 >= 0) ret.push_back(mBlocks[_x -1][_y][_z]);
+    if(_z +1 <= 15) ret.push_back(mBlocks[_x][_y][_z +1]);
+    if(_z -1 >= 0) ret.push_back(mBlocks[_x][_y][_z -1]);
+    return ret;
+}
+
 void Chunk::draw()
 {
     glm::mat4 mvp(1.0f);
@@ -198,3 +255,4 @@ void Chunk::draw()
     glBindVertexArray(0);
     glUseProgram(0);
 }
+

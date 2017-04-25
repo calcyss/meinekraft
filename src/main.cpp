@@ -26,7 +26,7 @@ int main()
 {
     GameWindow gw(1280, 720, "meinekraft");
 
-    Chunk c;
+    Chunk c(glm::ivec2(0, 0));
     gw.makeCurrent();
     gw.show();
 

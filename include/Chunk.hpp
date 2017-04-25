@@ -1,13 +1,14 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 
 #include <glm/glm.hpp>
 
 class Chunk
 {
 public:
-    Chunk();
+    Chunk(glm::ivec2 _mapPosition);
     ~Chunk();
 
     void draw();
@@ -15,17 +16,20 @@ public:
 
     glm::ivec2 getPosition();
 
+    int32_t*** getBlocksPointer();
     void setBlock(int32_t _x, int32_t _y, int32_t _block);
-    void setBlocks(int32_t (&_blocks)[16][128][16]);
 private:
     uint32_t mVAO, mVBO, mShader, mVert, mFrag;
-    int32_t mBlocks[16][128][16];
-    int32_t mVertexCount;
+    int32_t*** mBlocks;
+    size_t mVertexCount;
     bool mChanged;
+
+    static bool sInit;
+    static std::vector<glm::vec4> sBlockGeometry;
 
     glm::ivec2 mMapPosition;
     glm::mat4 mTransformation;
-    std::vector<glm::vec4> mBlockGeometry;
+
 
     std::vector<int32_t> getNeighbors(int32_t _x, int32_t _y, int32_t _z);
 };
