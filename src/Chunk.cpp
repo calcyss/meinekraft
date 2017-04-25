@@ -5,6 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <fstream>
 #include <iostream>
 #include <algorithm>
@@ -167,6 +168,15 @@ Chunk::Chunk(glm::ivec2 _mapPosition)
     glDetachShader(mShader, mFrag);
     glDeleteShader(mVert);
     glDeleteShader(mFrag);
+
+
+    GLuint attribloc = (GLuint)glGetAttribLocation(mShader, "vPosition");
+    glBindVertexArray(mVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, mVBO);
+    glEnableVertexAttribArray(attribloc);
+    glVertexAttribPointer(attribloc, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glBindVertexArray(0);
+
 }
 
 Chunk::~Chunk()
@@ -187,17 +197,22 @@ Chunk::~Chunk()
 }
 
 void Chunk::update() {
-    if (mChanged) {
+    if (mChanged)
+    {
+        double msnow = glfwGetTime();
         mChanged = false;
+        std::cout << "Chunk update. Updating chunk geometry." << std::endl;
         //Generate chunk data here, check for necessary blocks.
         std::vector<glm::vec4> chunk_geometry;
         for (int32_t y = 0; y < 128; y++) {
-            for (int32_t z = 0; z < 32; z++) {
-                for (int32_t x = 0; x < 32; x++) {
+            for (int32_t z = 0; z < 16; z++) {
+                for (int32_t x = 0; x < 16; x++) {
                     if (mBlocks[x][y][z] == 0) continue; //We dont have to check air blocks.
+                    std::cout << "Found non air block." << std::endl;
                     std::vector<int32_t> neighbors = getNeighbors(x, y, z);
                     if (std::find(neighbors.begin(), neighbors.end(), 0) != neighbors.end()) //Block has an air block as neighbor --> VISIBLE/DRAW IT!
                     {
+                        std::cout << "This block is visible!" << std::endl;
                         glm::vec4 block_offset = glm::vec4(x, y, z, 1.0f);
                         for (glm::vec4 block_vertex : sBlockGeometry)
                         {
@@ -209,17 +224,16 @@ void Chunk::update() {
         }
         mVertexCount = chunk_geometry.size();
 
-        GLuint attribloc = (GLuint)glGetAttribLocation(mShader, "vPosition");
-        glBindVertexArray(mVAO);
+        std::cout << "Vertex count: " << chunk_geometry.size() << std::endl;
+
         glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-        glDisableVertexAttribArray(attribloc);
-
         glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * chunk_geometry.size(), glm::value_ptr(chunk_geometry[0]), GL_STATIC_DRAW);
-
-        glVertexAttribPointer(attribloc, 4, GL_FLOAT, GL_FALSE, 0, 0);
-        glEnableVertexAttribArray(attribloc);
-        glBindVertexArray(0);
+        GLint size = 0;
+        glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
+        std::cout << "Successfully updated vertex buffer. Size: " << size << std::endl;
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+        double mslater = glfwGetTime();
+        std::cout << "The chunk update process just took " << mslater - msnow << "ms!" << std::endl;
     }
 }
 
@@ -237,16 +251,15 @@ std::vector<int32_t> Chunk::getNeighbors(int32_t _x, int32_t _y, int32_t _z)
 
 void Chunk::draw()
 {
-    glm::mat4 mvp(1.0f);
-
     Camera* cam = Camera::getCurrent();
     if(cam == 0)
     {
         std::cerr << "No current camera set! Cannot draw chunk!" << std::endl;
         return;
     }
+
     glm::mat4 vp = cam->getVPMatrix();
-    mvp = vp * mTransformation;
+    glm::mat4 mvp = vp * mTransformation;
 
     glUseProgram(mShader);
     glUniformMatrix4fv(glGetUniformLocation(mShader, "uMVP"), 1, GL_FALSE, glm::value_ptr(mvp));
@@ -256,3 +269,16 @@ void Chunk::draw()
     glUseProgram(0);
 }
 
+int32_t*** Chunk::getBlocksPointer()
+{
+    return mBlocks;
+}
+void Chunk::markChange()
+{
+    mChanged = true;
+}
+void Chunk::setBlock(int32_t _x, int32_t _y, int32_t _z, int32_t _block)
+{
+    mBlocks[_x][_y][_z] = _block;
+    mChanged = true;
+}

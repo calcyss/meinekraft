@@ -17,7 +17,8 @@ public:
     glm::ivec2 getPosition();
 
     int32_t*** getBlocksPointer();
-    void setBlock(int32_t _x, int32_t _y, int32_t _block);
+    void markChange();
+    void setBlock(int32_t _x, int32_t _y, int32_t z, int32_t _block);
 private:
     uint32_t mVAO, mVBO, mShader, mVert, mFrag;
     int32_t*** mBlocks;
