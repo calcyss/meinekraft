@@ -25,11 +25,15 @@ Camera* Camera::getCurrent()
 {
     return sCurrent;
 }
-glm::mat4 Camera::getVPMatrix()
+glm::mat4 Camera::getViewMatrix()
 {
     glm::mat4 view = glm::lookAt(glm::vec3(mPosition), glm::vec3(mTarget), glm::vec3(mUp));
-    glm::mat4 per = glm::perspective(30.0f, 1280.0f/720.0f, 0.0f, 1000.0f);
-    return per * view;
+    return view;
+}
+glm::mat4 Camera::getProjectionMatrix()
+{
+    glm::mat4 per = glm::perspective(45.0f, 1280.0f/720.0f, 0.0f, 1000.0f);
+    return per;
 }
 void Camera::lookAt(glm::vec4 _point)
 {

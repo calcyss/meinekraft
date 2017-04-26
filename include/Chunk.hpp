@@ -5,6 +5,8 @@
 
 #include <glm/glm.hpp>
 
+#include <glmCamera.h>
+
 class Chunk
 {
 public:

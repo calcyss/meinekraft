@@ -37,56 +37,56 @@ Chunk::Chunk(glm::ivec2 _mapPosition)
     if(sInit)
     {
         //Front
-        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 0.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 0.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 0.0f, 0.0f));
 
         //Back
-        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 1.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 1.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 1.0f, 0.0f));
 
         //Top
-        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 0.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 0.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 0.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 1.0f, 0.0f));
 
         //Bottom
-        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 1.0f, 0.0f));
 
         //Left
-        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 1.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(0.0f, 1.0f, 0.0f, 0.0f));
 
         //Right
-        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 1.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 1.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 1.0f, 0.0f));
+        sBlockGeometry.push_back(glm::vec4(1.0f, 1.0f, 0.0f, 0.0f));
     }
 
     mMapPosition = _mapPosition;
-    mTransformation = glm::translate(glm::mat4(1.0f), glm::vec3(mMapPosition.x, mMapPosition.y, 0.0f));
+    mTransformation = glm::translate(glm::mat4(1.0f), glm::vec3(mMapPosition.x, 0.0f, mMapPosition.y));
 
     mBlocks = new int32_t**[16];
     for(int x = 0; x < 16; x++)
@@ -213,11 +213,15 @@ void Chunk::update() {
                     if (std::find(neighbors.begin(), neighbors.end(), 0) != neighbors.end()) //Block has an air block as neighbor --> VISIBLE/DRAW IT!
                     {
                         std::cout << "This block is visible!" << std::endl;
-                        glm::vec4 block_offset = glm::vec4(x, y, z, 1.0f);
+                        glm::vec4 block_offset = glm::vec4(x, y, z, 0.0f);
+                        std::cout << "Vertices of this block:" << std::endl << "---" << std::endl;
                         for (glm::vec4 block_vertex : sBlockGeometry)
                         {
-                            chunk_geometry.push_back(block_offset + block_vertex);
+                            glm::vec4 block_ver = block_offset + block_vertex;
+                            std::cout << "glm::vec4(" << block_ver.x << ", " << block_ver.y << ", " << block_ver.z << ", " << block_ver.w << ");" << std::endl;
+                            chunk_geometry.push_back(block_ver);
                         }
+                        std::cout << "---" << std::endl;
                     }
                 }
             }
@@ -258,8 +262,9 @@ void Chunk::draw()
         return;
     }
 
-    glm::mat4 vp = cam->getVPMatrix();
-    glm::mat4 mvp = vp * mTransformation;
+    glm::mat4 view = cam->getViewMatrix();
+    glm::mat4 proj = cam->getProjectionMatrix();
+    glm::mat4 mvp = proj * view * mTransformation;
 
     glUseProgram(mShader);
     glUniformMatrix4fv(glGetUniformLocation(mShader, "uMVP"), 1, GL_FALSE, glm::value_ptr(mvp));

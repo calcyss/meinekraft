@@ -15,7 +15,8 @@ public:
     void roll(float _radians);
     void setCurrent();
     static Camera* getCurrent();
-    glm::mat4 getVPMatrix();
+    glm::mat4 getViewMatrix();
+    glm::mat4 getProjectionMatrix();
 private:
     glm::vec4 mPosition, mTarget, mUp;
     static Camera* sCurrent;
