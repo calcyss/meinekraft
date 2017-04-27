@@ -28,7 +28,7 @@ private:
     bool mChanged;
 
     static bool sInit;
-    static std::vector<glm::vec4> sBlockGeometry;
+    static std::vector<glm::vec3> sBlockGeometry;
 
     glm::ivec2 mMapPosition;
     glm::mat4 mTransformation;

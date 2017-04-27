@@ -10,7 +10,7 @@ Camera::Camera(glm::vec4 _position)
 {
     mPosition = _position;
     mTarget = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-    mUp = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+    mUp = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
 }
 Camera::~Camera()
 {
@@ -32,7 +32,7 @@ glm::mat4 Camera::getViewMatrix()
 }
 glm::mat4 Camera::getProjectionMatrix()
 {
-    glm::mat4 per = glm::perspective(45.0f, 1280.0f/720.0f, 0.0f, 1000.0f);
+    glm::mat4 per = glm::perspective(45.0f, 1280.0f/720.0f, 0.1f, 100.0f);
     return per;
 }
 void Camera::lookAt(glm::vec4 _point)
