@@ -33,5 +33,11 @@ void VertexArray::disableVertexPointer(uint32_t _index)
     glDisableVertexAttribArray(_index);
 }
 
-void VertexArray::bind();
-void VertexArray::unbind();
+void VertexArray::bind()
+{
+    glBindVertexArray(mVAO);
+}
+void VertexArray::unbind()
+{
+    glBindVertexArray(0);
+}
