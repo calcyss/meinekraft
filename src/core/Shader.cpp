@@ -65,11 +65,11 @@ void Shader::use()
     glUseProgram(mProgram);
 }
 
-int Shader::getUniformLocation(std::string _name)
+int32_t Shader::getUniformLocation(std::string _name)
 {
     return glGetUniformLocation(mProgram, _name.c_str());
 }
-int Shader::getAttributeLocation(std::string _name)
+int32_t Shader::getAttributeLocation(std::string _name)
 {
     return glGetAttribLocation(mProgram, _name.c_str());
 }

@@ -5,7 +5,9 @@
 
 #include <glm/glm.hpp>
 
-#include <glmCamera.h>
+#include <core/VertexBuffer.hpp>
+#include <core/VertexArray.hpp>
+#include <core/Shader.hpp>
 
 class Chunk
 {
@@ -22,7 +24,9 @@ public:
     void markChange();
     void setBlock(int32_t _x, int32_t _y, int32_t z, int32_t _block);
 private:
-    uint32_t mVAO, mVBO, mShader, mVert, mFrag;
+    VertexBuffer mVertexBuffer;
+    VertexArray mVAO;
+    Shader mShader;
     int32_t*** mBlocks;
     size_t mVertexCount;
     bool mChanged;

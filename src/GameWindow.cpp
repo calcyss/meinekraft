@@ -16,35 +16,36 @@ static void ErrorCallback(int error, const char *description)
 
 static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+    glm::vec3 dir = Camera::getCurrent()->getViewDirection();
     if (key == GLFW_KEY_A && action == GLFW_PRESS)
     {
         std::cout << "Moving camera left." << std::endl;
-        Camera::getCurrent()->moveBy(glm::vec4(-0.1f, 0.0f, 0.0f, 1.0f), false);
+        Camera::getCurrent()->moveBy(glm::vec3(-0.25f, 0.0f, 0.0f), false);
     }
     if (key == GLFW_KEY_D && action == GLFW_PRESS)
     {
         std::cout << "Moving camera right." << std::endl;
-        Camera::getCurrent()->moveBy(glm::vec4(0.1f, 0.0f, 0.0f, 1.0f), false);
+        Camera::getCurrent()->moveBy(glm::vec3(0.25f, 0.0f, 0.0f), false);
     }
     if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
     {
         std::cout << "Moving camera up." << std::endl;
-        Camera::getCurrent()->moveBy(glm::vec4(0.0f, 0.1f, 0.0f, 1.0f), false);
+        Camera::getCurrent()->moveBy(glm::vec3(0.0f, 0.25f, 0.0f), false);
     }
     if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
     {
         std::cout << "Moving camera down." << std::endl;
-        Camera::getCurrent()->moveBy(glm::vec4(0.0f, -0.1f, 0.0f, 1.0f), false);
+        Camera::getCurrent()->moveBy(glm::vec3(0.0f, -0.25f, 0.0f), false);
     }
     if (key == GLFW_KEY_W && action == GLFW_PRESS)
     {
         std::cout << "Moving camera forward." << std::endl;
-        Camera::getCurrent()->moveBy(glm::vec4(0.0f, 0.0f, 0.1f, 1.0f), false);
+        Camera::getCurrent()->moveBy(glm::vec3(dir.x * 0.25f, 0.0f, dir.z * 0.25f), false);
     }
     if (key == GLFW_KEY_S && action == GLFW_PRESS)
     {
         std::cout << "Moving camera back." << std::endl;
-        Camera::getCurrent()->moveBy(glm::vec4(0.0f, 0.0f, -0.1f, 1.0f), false);
+        Camera::getCurrent()->moveBy(glm::vec3(dir.x * 0.25f, 0.0f, -dir.z * 0.25f), false);
     }
 }
 

@@ -45,43 +45,43 @@ Chunk::Chunk(glm::ivec2 _mapPosition)
         sBlockGeometry.push_back(glm::vec3(1.0f, 1.0f, 0.0f));
 
         //Back
-        sBlockGeometry.push_back(glm::vec3(1.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec3(0.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec3(1.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec3(0.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec3(1.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec3(1.0f, 0.0f, -1.0f));
+        sBlockGeometry.push_back(glm::vec3(0.0f, 0.0f, -1.0f));
+        sBlockGeometry.push_back(glm::vec3(0.0f, 1.0f, -1.0f));
+        sBlockGeometry.push_back(glm::vec3(1.0f, 0.0f, -1.0f));
+        sBlockGeometry.push_back(glm::vec3(0.0f, 1.0f, -1.0f));
+        sBlockGeometry.push_back(glm::vec3(1.0f, 1.0f, -1.0f));
 
         //Top
         sBlockGeometry.push_back(glm::vec3(1.0f, 1.0f, 0.0f));
         sBlockGeometry.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
-        sBlockGeometry.push_back(glm::vec3(0.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec3(0.0f, 1.0f, -1.0f));
         sBlockGeometry.push_back(glm::vec3(1.0f, 1.0f, 0.0f));
-        sBlockGeometry.push_back(glm::vec3(0.0f, 1.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec3(1.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec3(0.0f, 1.0f, -1.0f));
+        sBlockGeometry.push_back(glm::vec3(1.0f, 1.0f, -1.0f));
 
         //Bottom
         sBlockGeometry.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
         sBlockGeometry.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
-        sBlockGeometry.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec3(0.0f, 0.0f, -1.0f));
         sBlockGeometry.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
-        sBlockGeometry.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec3(1.0f, 0.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec3(0.0f, 0.0f, -1.0f));
+        sBlockGeometry.push_back(glm::vec3(1.0f, 0.0f, -1.0f));
         
         //Left
         sBlockGeometry.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
-        sBlockGeometry.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec3(0.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec3(0.0f, 0.0f, -1.0f));
+        sBlockGeometry.push_back(glm::vec3(0.0f, 1.0f, -1.0f));
         sBlockGeometry.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
-        sBlockGeometry.push_back(glm::vec3(0.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec3(0.0f, 1.0f, -1.0f));
         sBlockGeometry.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
 
         //Right
         sBlockGeometry.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
-        sBlockGeometry.push_back(glm::vec3(1.0f, 0.0f, 1.0f));
-        sBlockGeometry.push_back(glm::vec3(1.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec3(1.0f, 0.0f, -1.0f));
+        sBlockGeometry.push_back(glm::vec3(1.0f, 1.0f, -1.0f));
         sBlockGeometry.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
-        sBlockGeometry.push_back(glm::vec3(1.0f, 1.0f, 1.0f));
+        sBlockGeometry.push_back(glm::vec3(1.0f, 1.0f, -1.0f));
         sBlockGeometry.push_back(glm::vec3(1.0f, 1.0f, 0.0f));
     }
 
@@ -102,81 +102,15 @@ Chunk::Chunk(glm::ivec2 _mapPosition)
         }
     }
 
-    glGenBuffers(1, &mVBO);
-    glGenVertexArrays(1, &mVAO);
+    mShader.loadVertexShader("./shaders/chunk.vert.glsl");
+    mShader.loadFragmentShader("./shaders/chunk.frag.glsl");
+    mShader.link();
 
-    mChanged = false;
-
-    mVert = glCreateShader(GL_VERTEX_SHADER);
-    mFrag = glCreateShader(GL_FRAGMENT_SHADER);
-    mShader = glCreateProgram();
-
-    std::ifstream vert_file("./shaders/chunk.vert.glsl");
-    std::string vert_source, vert_line;
-
-    while(std::getline(vert_file, vert_line))
-    {
-        vert_source.append(vert_line + "\n");
-    }
-    const char* vert_source_c = vert_source.c_str();
-
-    vert_file.close();
-
-    glShaderSource(mVert, 1, &vert_source_c, 0);
-    glCompileShader(mVert);
-
-    std::ifstream frag_file("./shaders/chunk.frag.glsl");
-    std::string frag_source, frag_line;
-
-    while(std::getline(frag_file, frag_line))
-    {
-        frag_source.append(frag_line + "\n");
-    }
-    const char* frag_source_c = frag_source.c_str();
-
-    frag_file.close();
-
-    glShaderSource(mFrag, 1, &frag_source_c, 0);
-    glCompileShader(mFrag);
-
-    /*
-    std::cout << "Vert source: " << std::endl;
-    std::cout << "--" << std::endl;
-    std::cout << vert_source << std::endl;
-    std::cout << "--" << std::endl;
-    //std::cout << getInfoLog(mVert) << std::endl;
-    //std::cout << "--" << std::endl;
-
-    std::cout << "Frag source: " << std::endl;
-    std::cout << "--" << std::endl;
-    std::cout << frag_source << std::endl;
-    std::cout << "--" << std::endl;
-    //std::cout << getInfoLog(mFrag) << std::endl;
-    //std::cout << "--" << std::endl;
-     */
-
-    glAttachShader(mShader, mVert);
-    glAttachShader(mShader, mFrag);
-
-    glLinkProgram(mShader);
-
-    int32_t isLinked = 0;
-    glGetProgramiv(mShader, GL_LINK_STATUS, (int32_t *)&isLinked);
-    if(isLinked == GL_FALSE) std::cout << "Failed to link program!" << std::endl;
-
-    glDetachShader(mShader, mVert);
-    glDetachShader(mShader, mFrag);
-    glDeleteShader(mVert);
-    glDeleteShader(mFrag);
-
-
-    GLuint attribloc = (GLuint)glGetAttribLocation(mShader, "vPosition");
-    glBindVertexArray(mVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-    glEnableVertexAttribArray(attribloc);
-    glVertexAttribPointer(attribloc, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    glBindVertexArray(0);
-
+    mVAO.bind();
+    mVertexBuffer.bind();
+    mVAO.createVertexPointer<glm::vec3>((uint32_t)mShader.getAttributeLocation("vPosition"), 0, 0);
+    mVertexBuffer.unbind();
+    mVAO.unbind();
 }
 
 Chunk::~Chunk()
@@ -190,10 +124,6 @@ Chunk::~Chunk()
         delete[] mBlocks[x];
     }
     delete[] mBlocks;
-
-    glDeleteVertexArrays(1, &mVAO);
-    glDeleteBuffers(1, &mVBO);
-    glDeleteProgram(mShader);
 }
 
 void Chunk::update() {
@@ -213,7 +143,7 @@ void Chunk::update() {
                     if (std::find(neighbors.begin(), neighbors.end(), 0) != neighbors.end()) //Block has an air block as neighbor --> VISIBLE/DRAW IT!
                     {
                         std::cout << "This block is visible!" << std::endl;
-                        glm::vec3 block_offset = glm::vec3(x, y, z);
+                        glm::vec3 block_offset = glm::vec3(x, y, -z);
                         std::cout << "Vertices of this block:" << std::endl << "---" << std::endl;
                         for (glm::vec3 block_vertex : sBlockGeometry)
                         {
@@ -229,13 +159,10 @@ void Chunk::update() {
         mVertexCount = chunk_geometry.size();
 
         std::cout << "Vertex count: " << chunk_geometry.size() << std::endl;
+        mVertexBuffer.bind();
+        mVertexBuffer.uploadData(chunk_geometry, StaticDraw);
+        mVertexBuffer.unbind();
 
-        glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * chunk_geometry.size(), glm::value_ptr(chunk_geometry[0]), GL_STATIC_DRAW);
-        GLint size = 0;
-        glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
-        std::cout << "Successfully updated vertex buffer. Size: " << size << std::endl;
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
         double mslater = glfwGetTime();
         std::cout << "The chunk update process just took " << (mslater - msnow)*1000 << "ms!" << std::endl;
     }
@@ -270,12 +197,11 @@ void Chunk::draw()
     vec = mvp * vec;
     std::cout << "vec(1.0f, 1.0f, 1.0f, 1.0f) after MVP: vec(" << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << ");" << std::endl;
 
-    glUseProgram(mShader);
-    glUniformMatrix4fv(glGetUniformLocation(mShader, "uMVP"), 1, GL_FALSE, glm::value_ptr(mvp));
-    glBindVertexArray(mVAO);
-    glDrawArrays(GL_TRIANGLES, 0, mVertexCount);
-    glBindVertexArray(0);
-    glUseProgram(0);
+    mShader.use();
+    mShader.uploadUniform("uMVP", mvp);
+    mVAO.bind();
+    mVAO.draw(0, mVertexCount);
+    mVAO.unbind();
 }
 
 int32_t*** Chunk::getBlocksPointer()

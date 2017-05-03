@@ -41,3 +41,7 @@ void VertexArray::unbind()
 {
     glBindVertexArray(0);
 }
+void VertexArray::draw(uint32_t _begin, uint32_t _end)
+{
+    glDrawArrays(GL_TRIANGLES, _begin, _end);
+}
